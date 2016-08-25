@@ -20,4 +20,15 @@ appSat: using Sea Level Anomaly data to anticipate sea level drops in the Reunio
     -   SLA has a strong impact on the sea level in the Reunionese coral lagoons
     -   Sea level drops in these lagoons can be anticipated from SLA values East of Reunion
 
-All these results can be seen at the [appSat website](https://scientific-contributions.shinyapps.io/appSat).
+All these results can be seen at the [appSat website](https://scientific-contributions.shinyapps.io/appSat). You can get and run it easily:
+
+``` r
+library(shiny)
+
+# Easiest way is to use runGitHub
+runGitHub("appSat", "sylvainBonhommeau")
+
+# Run a tar or zip file directly
+runUrl("https://github.com/sylvainBonhommeau/appSat/archive/master.tar.gz")
+runUrl("https://github.com/sylvainBonhommeau/appSat/archive/master.zip")
+```
