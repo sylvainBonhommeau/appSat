@@ -1,0 +1,130 @@
+Loading required package: methods
+Loading required package: sp
+Loading required package: R.oo
+Loading required package: R.methodsS3
+R.methodsS3 v1.7.1 (2016-02-15) successfully loaded. See ?R.methodsS3 for help.
+R.oo v1.20.0 (2016-02-17) successfully loaded. See ?R.oo for help.
+
+Attaching package: ‘R.oo’
+
+The following objects are masked from ‘package:raster’:
+
+    extend, trim
+
+The following objects are masked from ‘package:methods’:
+
+    getClasses, getMethods
+
+The following objects are masked from ‘package:base’:
+
+    attach, detach, gc, load, save
+
+R.utils v2.3.0 (2016-04-13) successfully loaded. See ?R.utils for help.
+
+Attaching package: ‘R.utils’
+
+The following objects are masked from ‘package:raster’:
+
+    extract, resample
+
+The following object is masked from ‘package:utils’:
+
+    timestamp
+
+The following objects are masked from ‘package:base’:
+
+    cat, commandArgs, getOption, inherits, isOpen, parse, warnings
+
+Loading required package: spam
+Loading required package: grid
+Spam version 1.3-0 (2015-10-24) is loaded.
+Type 'help( Spam)' or 'demo( spam)' for a short introduction 
+and overview of this package.
+Help for individual functions is also obtained by adding the
+suffix '.spam' to the function name, e.g. 'help( chol.spam)'.
+
+Attaching package: ‘spam’
+
+The following object is masked from ‘package:R.utils’:
+
+    cleanup
+
+The following objects are masked from ‘package:base’:
+
+    backsolve, forwardsolve
+
+Loading required package: maps
+
+ # maps v3.1: updated 'world': all lakes moved to separate new #
+ # 'lakes' database. Type '?world' or 'news(package="maps")'.  #
+
+
+
+Attaching package: ‘plyr’
+
+The following objects are masked from ‘package:reshape’:
+
+    rename, round_any
+
+The following object is masked from ‘package:maps’:
+
+    ozone
+
+[1] "#######################################################################################"
+[1] "##################### 2016-08-25 ############################################"
+[1] "#######################################################################################"
+--2016-08-25 07:11:07--  ftp://ftp.sltac.cls.fr/Core/SEALEVEL_GLO_SLA_MAP_L4_NRT_OBSERVATIONS_008_026/dataset-duacs-nrt-global-merged-allsat-msla-l4/nrt_global_allsat_msla_h_20160818_20160824.nc.gz
+           => ‘nrt_global_allsat_msla_h_20160818_20160824.nc.gz’
+Resolving ftp.sltac.cls.fr (ftp.sltac.cls.fr)... 91.207.20.168
+Connecting to ftp.sltac.cls.fr (ftp.sltac.cls.fr)|91.207.20.168|:21... connected.
+Logging in as sbonhommeau1 ... Logged in!
+==> SYST ... done.    ==> PWD ... done.
+==> TYPE I ... done.  ==> CWD (1) /Core/SEALEVEL_GLO_SLA_MAP_L4_NRT_OBSERVATIONS_008_026/dataset-duacs-nrt-global-merged-allsat-msla-l4 ... done.
+==> SIZE nrt_global_allsat_msla_h_20160818_20160824.nc.gz ... 2025076
+==> PASV ... done.    ==> RETR nrt_global_allsat_msla_h_20160818_20160824.nc.gz ... done.
+Length: 2025076 (1,9M) (unauthoritative)
+
+     0K .......... .......... .......... .......... ..........  2% 77,9K 25s
+    50K .......... .......... .......... .......... ..........  5%  191K 17s
+   100K .......... .......... .......... .......... ..........  7%  758K 12s
+   150K .......... .......... .......... .......... .......... 10%  251K 10s
+   200K .......... .......... .......... .......... .......... 12%  797K 9s
+   250K .......... .......... .......... .......... .......... 15%  113K 9s
+   300K .......... .......... .......... .......... .......... 17%  140M 8s
+   350K .......... .......... .......... .......... .......... 20% 6,08M 7s
+   400K .......... .......... .......... .......... .......... 22%  175K 7s
+   450K .......... .......... .......... .......... .......... 25% 1,74M 6s
+   500K .......... .......... .......... .......... .......... 27%  202K 6s
+   550K .......... .......... .......... .......... .......... 30%  204K 6s
+   600K .......... .......... .......... .......... .......... 32%  208K 6s
+   650K .......... .......... .......... .......... .......... 35%  149K 6s
+   700K .......... .......... .......... .......... .......... 37% 96,0M 5s
+   750K .......... .......... .......... .......... .......... 40%  190K 5s
+   800K .......... .......... .......... .......... .......... 42%  185K 5s
+   850K .......... .......... .......... .......... .......... 45%  196K 5s
+   900K .......... .......... .......... .......... .......... 48%  168K 4s
+   950K .......... .......... .......... .......... .......... 50%  163K 4s
+  1000K .......... .......... .......... .......... .......... 53%  156K 4s
+  1050K .......... .......... .......... .......... .......... 55%  155K 4s
+  1100K .......... .......... .......... .......... .......... 58%  148K 4s
+  1150K .......... .......... .......... .......... .......... 60%  147K 4s
+  1200K .......... .......... .......... .......... .......... 63%  249K 3s
+  1250K .......... .......... .......... .......... .......... 65%  262K 3s
+  1300K .......... .......... .......... .......... .......... 68%  196K 3s
+  1350K .......... .......... .......... .......... .......... 70%  196K 3s
+  1400K .......... .......... .......... .......... .......... 73%  192K 3s
+  1450K .......... .......... .......... .......... .......... 75%  197K 2s
+  1500K .......... .......... .......... .......... .......... 78%  198K 2s
+  1550K .......... .......... .......... .......... .......... 80%  201K 2s
+  1600K .......... .......... .......... .......... .......... 83%  202K 2s
+  1650K .......... .......... .......... .......... .......... 85%  188K 1s
+  1700K .......... .......... .......... .......... .......... 88%  633K 1s
+  1750K .......... .......... .......... .......... .......... 91%  182K 1s
+  1800K .......... .......... .......... .......... .......... 93%  182K 1s
+  1850K .......... .......... .......... .......... .......... 96%  192K 0s
+  1900K .......... .......... .......... .......... .......... 98%  638K 0s
+  1950K .......... .......... .......                         100% 57,7K=9,7s
+
+2016-08-25 07:11:20 (205 KB/s) - ‘nrt_global_allsat_msla_h_20160818_20160824.nc.gz’ saved [2025076]
+
+[1] "#################################################################"
