@@ -13,9 +13,9 @@ appSat: using Sea Level Anomaly data to anticipate sea level drops in the Reunio
     -   We extracted the SLA values (NRT & DT data) for the West part of Reunion Island where the tide gaude and the reef lagoons are located.
     -   We compare the times series of this mean SLA and the tide gauge time series. Autocorrelation in the time series is accounted for in the p-value estimates using [Pyper & Peterman, 1998](http://www.fishsciences.net/reports/CJFAS_u-d_6-28/CJ_55_p2127-40_Comparison_methods_to_account_for_autocorrelation_in_correlation_anal_fish_data.pdf).
     -   We extracted the time series of SLA for the whole Southwestern Indian Ocean. We then calculated the correlation between the Reunionese SLA time series and the SLA time series of all other pixels in this area. We did this by lagging the time series to see if we could predict future drop in sea level from previous drop in other area.
-
--**RESULTS**: + There is a very good correlation between SLA times series and sea level from the tide gauge + The SLA in Reunion can be predicted from Eastern SLA, e.g. from the SLA Mauritius region 1 month ahead and from the SLA 500 km east from Reunion 2 month earlier
-
+-   **RESULTS**:
+    -   There is a very good correlation between SLA times series and sea level from the tide gauge
+    -   The SLA in Reunion can be predicted from Eastern SLA, e.g. from the SLA Mauritius region 1 month ahead and from the SLA 500 km east from Reunion 2 month earlier
 -   **DISCUSSION**
     -   SLA has a strong impact on the sea level in the Reunionese coral lagoons
     -   Sea level drops in these lagoons can be anticipated from SLA values East of Reunion
