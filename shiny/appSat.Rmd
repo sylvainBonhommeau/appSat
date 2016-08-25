@@ -1,0 +1,171 @@
+---
+title: "IFREMER DOI"
+author: "Données Satellite"
+output: 
+  flexdashboard::flex_dashboard:
+  orientation: rows
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(jpeg)
+library(raster)
+library(grid)
+library(gridExtra)
+library(htmltools)
+library(highcharter)
+library(rdrop2)
+library(shiny)
+#library(leaflet)
+source(file="helpers.R")
+```
+
+INTRO
+=======================================================================
+```{r}
+HTML('<div style="float: middle; margin: 0 5px 5px 10px;"><iframe width="700" height="525" src="https://www.youtube.com/embed/TOWeYbppbZU" frameborder="0" allowfullscreen></iframe></div>
+<p style="text-align:justify">This website aims to show the link between the Sea Level Anomaly and the decrease in seawater height in the lagoons of Reunion Island. You will find different tabs with maps and time series of SLA and in situ measurements.</p><br/>
+<p style="text-align:justify">1- The Dashboard Tab gives the time series of sealevel height observed in Riviere des Galets in Reunion Island and the sea level anomaly from Copernicus dataset  </p><br/>
+<p style="text-align:justify">2- On the MAP Tab, you can select dates and area to sea the sea level anomaly.</p><br/>
+<p style="text-align:justify">3- The Analyses Tab shows you the correlation map of the time series in Reunion Island and other area in the Indian Ocean.</p><br/>
+')
+```
+
+Dashboard
+=======================================================================
+
+### Time series of the Seal Level Anomaly (satellite data) and the the sealevel height observed in riviere des Galets and indicator for risk of low level height
+
+```{r}
+output$timeSeries <- renderHighchart(plotSonelSLA(globaDataFrame))
+
+renderUI(highchartOutput("timeSeries"))
+output$gauge <- renderGauge({gauge(round(currentSLA,2), min = minSLA, max = maxSLA, symbol = 'm', gaugeSectors(
+     success = c(quant33SLA, maxSLA), warning = c(quant10SLA, quant33SLA), danger = c(minSLA, quant10SLA)), label="SLA value")
+})
+renderUI(gaugeOutput("gauge"))
+```
+
+
+MAPS
+=======================================================================
+
+Column {.sidebar}
+-----------------------------------------------------------------------
+```{r}
+dateInput("date", label = "Select the date", value = Sys.Date()-7, max=Sys.Date()-7, min="2014-04-09")
+selectInput("choiceRegion", label="Select the region", choices = c("All"           = "All",
+                                                                   "World"         = "World",
+                                                                   "Indian Ocean"  = "Indian", 
+                                                                   "Reunion Area"  = "Reunion", 
+                                                                   "Reunion Island"= "reunionIsland"), selected="Indian")
+```
+
+Column
+-----------------------------------------------------------------------
+
+### Sea Level Anomaly
+
+```{r}
+uiOutput("dynamic")
+
+output$dynamic <- renderUI({
+  switch(as.character(input$choiceRegion), 
+         All           = imageOutput("imageAll"),
+         World         = imageOutput("imageWorld"),
+         Indian        = imageOutput("imageIndian"),
+         Reunion       = imageOutput("imageReunion"),
+         reunionIsland = imageOutput("imagereunionIsland")
+        )
+})
+
+output$imageAll <- renderImage({
+  fileName1 <- paste("world_", format(input$date, format="%Y%m%d"), ".png", sep="")
+  fileName2 <- paste("indian_", format(input$date, format="%Y%m%d"), ".png", sep="")
+  fileName3 <- paste("reunion_", format(input$date, format="%Y%m%d"), ".png", sep="")
+  fileName4 <- paste("reunionIsland_", format(input$date, format="%Y%m%d"), ".png", sep="")
+  drop_get(path = paste('SSH/NRT/', fileName1 ,sep=""), local_file = "tmp1.png", overwrite = TRUE, dtoken = token)
+  drop_get(path = paste('SSH/NRT/', fileName2 ,sep=""), local_file = "tmp2.png", overwrite = TRUE, dtoken = token)
+  drop_get(path = paste('SSH/NRT/', fileName3 ,sep=""), local_file = "tmp3.png", overwrite = TRUE, dtoken = token)
+  drop_get(path = paste('SSH/NRT/', fileName4 ,sep=""), local_file = "tmp4.png", overwrite = TRUE, dtoken = token)
+  fileName <- paste0("tmp", 1:4, ".png", sep="")
+  
+  rl = lapply(fileName, png::readPNG, native=T)
+  gl = lapply(rl, grid::rasterGrob)
+  png("temp.png", width=1800, height=1200)
+  gridExtra::grid.arrange(grobs=gl)
+  dev.off()
+  list(src="temp.jpeg", width="100%", height="100%", alt="It does not work")}, deleteFile = FALSE)
+
+output$imageWorld <- renderImage({
+  fileName1 <- paste("world_", format(input$date, format="%Y%m%d"), ".png", sep="")
+  drop_get(path = paste('SSH/NRT/', fileName1 ,sep=""), local_file = "tmp5.png", overwrite = TRUE, dtoken = token)
+  list(src="tmp5.png", width="100%", height="100%")}, deleteFile = FALSE)
+
+output$imageIndian <- renderImage({
+  fileName1 <- paste("indian_", format(input$date, format="%Y%m%d"), ".png", sep="")
+  drop_get(path = paste('SSH/NRT/', fileName1 ,sep=""), local_file = "tmp6.png", overwrite = TRUE, dtoken = token)
+  list(src="tmp6.png", width="100%", height="100%")}, deleteFile = FALSE)
+
+output$imageReunion <- renderImage({
+  fileName1 <- paste("reunion_", format(input$date, format="%Y%m%d"), ".png", sep="")
+  drop_get(path = paste('SSH/NRT/', fileName1 ,sep=""), local_file = "tmp7.png", overwrite = TRUE, dtoken = token)
+  list(src="tmp7.png", width="100%", height="100%")}, deleteFile = FALSE)
+
+output$imagereunionIsland <- renderImage({
+  fileName1 <- paste("reunionIsland_", format(input$date, format="%Y%m%d"), ".png", sep="")
+  drop_get(path = paste('SSH/NRT/', fileName1 ,sep=""), local_file = "tmp8.png", overwrite = TRUE, dtoken = token)
+  list(src="tmp8.png", width="100%", height="100%")}, deleteFile = FALSE)
+```
+
+Correlation
+=======================================================================
+
+Column {.sidebar}
+-----------------------------------------------------------------------
+```{r}
+selectInput("periodCor", label="Select the lag", choices = c("0 days"   = "0",
+                                                             "15 days"  = "15",
+                                                             "30 days"  = "30", 
+                                                             "45 days"  = "45", 
+                                                             "60 days"  = "60",
+                                                             "75 days"  = "75",
+                                                             "90 days"  = "90",
+                                                             "105 days" = "105"), selected="30")
+selectInput("slaType", label="Select the type of SLA", choices = c("NRT (2014-2016)"   = "Nrt",
+                                                             "REP (1993-2016)"  = "Rep"), selected="Rep")
+```
+
+Row
+-----------------------------------------------------------------------
+
+### Map of the correlation between the Sea Level Anomaly in Reunion and the rest of the Indian Ocean
+
+```{r}
+uiOutput("dynamic2")
+
+output$mapCor <- renderPlot({
+plotCor(eval(parse(text=paste("cor", input$slaType, "SLA", input$periodCor, sep=""))))})
+
+output$dynamic2 <- renderUI({
+plotOutput("mapCor", width="50%", height="50%")
+})
+```
+
+Row
+-----------------------------------------------------------------------
+
+### Map of the p-value (corrected for autocorrelation) between the Sea Level Anomaly in Reunion and the rest of the Indian Ocean
+
+```{r}
+uiOutput("dynamic3")
+
+output$mapCor2 <- renderPlot({
+plotCor(eval(parse(text=paste("pValue", input$slaType, "SLA", input$periodCor, sep=""))))})
+
+output$dynamic3 <- renderUI({
+plotOutput("mapCor2", width="50%", height="50%")
+})
+```
+
